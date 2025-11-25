@@ -1,0 +1,18 @@
+# Node
+node_modules/
+*.log
+package-lock.json
+
+# Angular
+aqi-frontend/node_modules/
+aqi-frontend/dist/
+
+# Java
+*.class
+target/
+*.jar
+
+# IDEs
+*.iml
+.idea/
+.vscode/
