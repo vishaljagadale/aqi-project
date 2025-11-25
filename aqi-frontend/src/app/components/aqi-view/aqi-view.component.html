@@ -1,0 +1,47 @@
+<div class="container">
+  <h1>Air Quality Index (AQI) Search</h1>
+
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="city" placeholder="Enter city name..." />
+    <button (click)="fetchAqi()">Search</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="aqiData" class="aqi-card">
+    <h2>{{ aqiData.data.city.name }}</h2>
+    <p><strong>AQI:</strong> {{ aqiData.data.aqi }}</p>
+    <p><strong>Dominant Pollutant:</strong> {{ aqiData.data.dominentpol | uppercase }}</p>
+    <a [href]="aqiData.data.city.url" target="_blank">View more details</a>
+
+    <div class="pollutants">
+      <h3>Pollutants</h3>
+      <div class="grid">
+        <div *ngFor="let p of ['pm25','pm10','o3','no2','co','so2','t','h','w']">
+          <strong>{{ p | uppercase }}:</strong> {{ aqiData.data.iaqi[p]?.v ?? 'N/A' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast">
+      <h3>Forecast (PM2.5 / PM10)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>PM2.5</th>
+            <th>PM10</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let day of aqiData.data.forecast.daily.pm25; let i = index">
+            <td>{{ day.day }}</td>
+            <td>{{ day.avg }}</td>
+            <td>{{ aqiData.data.forecast.daily.pm10[i]?.avg ?? 'N/A' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
